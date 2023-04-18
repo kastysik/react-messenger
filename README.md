@@ -1,6 +1,4 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## To test it locally please download and run api:  https://github.com/kastysik/simple-chat-api
 
 ## Available Scripts
 
