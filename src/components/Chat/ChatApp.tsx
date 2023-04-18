@@ -1,14 +1,17 @@
 import ChatInput from './ChatInput';
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Messages from '../Messages/Messages';
 import { MessageModel } from 'models/Message.model';
-import { io } from 'socket.io-client';
-import config from 'config/config';
+import { Socket } from 'socket.io-client';
+import ChatInfoBar from "components/Chat/ChatInfoBar";
+import "./ChatApp.css";
+import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
 
 interface ChatAppProps {
     messages?: MessageModel[];
-    currentUsername: string;
+    socket: Socket;
 }
 
 interface ChatAppState {
@@ -17,26 +20,38 @@ interface ChatAppState {
 
 function ChatApp(props: ChatAppProps) {
     const [state, setState] = useState<ChatAppState>({ messages: [] });
-    const socket = io(config.api).connect();
-    socket.on('server:message', message => {
-        setState({messages: [...state.messages, message]});
+    const currentUserName = localStorage.getItem('userName') ?? '';
+    const navigate = useNavigate();
+    useEffect(() => {
+        props.socket.on('server:message', message => {
+            setState({messages: [...state.messages, message]});
+        });
     });
     const sendHandler = (message: string) => {
         const messageObject: MessageModel = {
-            username: props.currentUsername,
+            username: currentUserName,
             message,
-            fromMe: false
         };
-        socket.emit('client:message', messageObject);
-        messageObject.fromMe = true;
-        setState({messages: [...state.messages, messageObject]});
+        props.socket.emit('client:message', messageObject);
     };
 
+    const disconnectHandler = () => {
+        localStorage.removeItem("userName");
+        navigate('/');
+        window.location.reload();
+    }
+
     return (
-        <div className="container">
-            <h3>React Chat App</h3>
-            <Messages messages={state.messages}/>
-            <ChatInput onSend={sendHandler}/>
+        <div className="chat">
+            <ChatInfoBar socket={props.socket}/>
+            <div className="chat__main">
+                <header className="chat__main-header">
+                    <h3>Chat</h3>
+                    <Button variant="outlined" onClick={disconnectHandler}>Disconnect</Button>
+                </header>
+                <Messages messages={state.messages}/>
+                <ChatInput onSend={sendHandler}/>
+            </div>
         </div>
     );
 }

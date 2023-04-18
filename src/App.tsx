@@ -1,32 +1,31 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
 import ChatApp from './components/Chat/ChatApp';
+import { io } from "socket.io-client";
+import config from "./config/config";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from "./components/Home/Home";
+import GuardedRoute from "./components/GuardedRoute";
+import { useAppSelector } from "./redux/store";
+import { selectUsers } from "./redux/slice";
+
+const socket = io(config.api);
 
 function App() {
-    const [state, setState] = useState({ username: '', submitted: false });
-    const usernameChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setState({ username: event.target.value, submitted: false });
-    }
-    const usernameSubmitHandler = () => {
-        setState({ submitted: true, username: state.username });
-    }
-    if (state.submitted) {
-        return (
-            <ChatApp currentUsername={state.username} />
-        );
-    }
+    const user = useAppSelector((state) =>
+        selectUsers(state)
+    );
     return (
-        <form onSubmit={usernameSubmitHandler} className="username-container">
-            <h1>React Instant Chat</h1>
+        <BrowserRouter>
             <div>
-                <input
-                    type="text"
-                    onChange={usernameChangeHandler}
-                    placeholder="Enter a username..."
-                    required/>
+                <Routes>
+                    <Route path="/" element={<Home socket={socket}/>} />
+                    <Route element={<GuardedRoute auth={!!user}/>}>
+                        <Route path="/chat" element={<ChatApp socket={socket}/>} />
+                    </Route>
+                </Routes>
             </div>
-            <input type="submit" value="Submit"/>
-        </form>
+        </BrowserRouter>
     );
 }
 

@@ -1,4 +1,7 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
+import TextField from "@mui/material/TextField";
+import "./ChatApp.css";
+import Button from "@mui/material/Button";
 
 interface ChatInputProps {
     onSend: (value: string) => void;
@@ -19,11 +22,15 @@ function ChatInput(props: ChatInputProps) {
 
     return (
         <form className="chat-input" onSubmit={submitHandler}>
-            <input type="text"
-                   onChange={textChangeHandler}
-                   value={state.chatInput}
-                   placeholder="Write a message..."
-                   required />
+            <TextField
+                className="chat-input__control"
+                variant="outlined"
+                type="text"
+                value={state.chatInput}
+                onChange={textChangeHandler}
+                label="Write a message"
+                required/>
+            <Button type="submit" variant="outlined">Send</Button>
         </form>
     );
 }

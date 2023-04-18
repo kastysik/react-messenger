@@ -1,8 +1,10 @@
 import Message from './Message';
 import { useEffect } from 'react';
+import { MessageModel } from "models/Message.model";
+import "./Messages.css";
 
 interface MessagesProps {
-    messages: any[];
+    messages: MessageModel[];
 }
 
 function Messages(props: MessagesProps) {
@@ -15,12 +17,12 @@ function Messages(props: MessagesProps) {
         return (
             <Message
                 key={i}
-                message={message.message} />
+                message={message}/>
         );
     });
     return (
         <div className='messages' id='messageList'>
-            { messages }
+            {messages}
         </div>
     );
 }
