@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import ChatApp from './components/Chat/ChatApp';
-import { io } from "socket.io-client";
+import { io, Socket } from 'socket.io-client';
 import { apiConfig } from "./config/config";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./components/Home/Home";
@@ -9,7 +9,8 @@ import GuardedRoute from "./components/GuardedRoute";
 import { useAppSelector } from "./redux/store";
 import { selectUsers } from "./redux/slice";
 
-const socket = io(apiConfig.api);
+// @ts-ignore
+const socket = null as Socket;
 
 function App() {
     const user = useAppSelector((state) =>
