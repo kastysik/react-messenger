@@ -1,7 +1,9 @@
 import React from 'react';
 import './App.css';
 import ChatApp from './components/Chat/ChatApp';
+// @ts-ignore
 import { io, Socket } from 'socket.io-client';
+// @ts-ignore
 import { apiConfig } from "./config/config";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./components/Home/Home";
