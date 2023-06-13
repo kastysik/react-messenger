@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import ChatApp from './components/Chat/ChatApp';
 import { Socket } from 'socket.io-client';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Home from './components/Home/Home';
 import GuardedRoute from './components/GuardedRoute';
 import { useAppSelector } from './redux/store';
@@ -16,16 +16,14 @@ function App() {
         selectUsers(state)
     );
     return (
-        <BrowserRouter>
-            <div>
-                <Routes>
-                    <Route path="/" element={<Home socket={socket}/>} />
-                    <Route element={<GuardedRoute auth={!!user}/>}>
-                        <Route path="/chat" element={<ChatApp socket={socket}/>} />
-                    </Route>
-                </Routes>
-            </div>
-        </BrowserRouter>
+        <div>
+            <Routes>
+                <Route path="/" element={<Home socket={socket}/>} />
+                <Route element={<GuardedRoute auth={!!user}/>}>
+                    <Route path="/chat" element={<ChatApp socket={socket}/>} />
+                </Route>
+            </Routes>
+        </div>
     );
 }
 
