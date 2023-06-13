@@ -46,7 +46,7 @@ function ChatApp(props: ChatAppProps) {
             <ChatInfoBar socket={props.socket}/>
             <div className="chat__main">
                 <header className="chat__main-header">
-                    <h3>Chat</h3>
+                    <h3>Chat v123</h3>
                     <Button variant="outlined" onClick={disconnectHandler}>Disconnect</Button>
                 </header>
                 <Messages messages={state.messages}/>
