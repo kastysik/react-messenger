@@ -1,0 +1,13 @@
+.sign-up {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px !important;
+    width: 25vw;
+}
+
+.sign-up-input {
+    margin-bottom: 20px !important;
+}

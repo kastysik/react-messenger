@@ -26,6 +26,9 @@ function Home(props: HomeProps) {
         props.socket.emit("client:newUser", {userName: state.username, socketId: props.socket.id});
         navigate("/chat");
     }
+    const signUpHandler = () => {
+        navigate("/sign-up");
+    }
     return (
         <form onSubmit={usernameSubmitHandler} className="username-container">
             <h1>Sign in</h1>
@@ -38,6 +41,7 @@ function Home(props: HomeProps) {
                     required/>
             </div>
             <Button className="submit-username" type="submit" value="Submit" variant="outlined">Submit</Button>
+            <Button className="sign-up" variant="outlined" onClick={signUpHandler}>Sign up</Button>
         </form>
     )
 }
